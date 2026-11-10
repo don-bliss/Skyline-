@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101a2b"><title>SkyLine | Community Room</title>
+<link rel="stylesheet" href="base.css"><link rel="stylesheet" href="style-overrides.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.community-page{width:min(900px,calc(100% - 28px));margin:28px auto 90px}.community-back{display:inline-block;margin:0 0 18px;color:var(--sky);text-decoration:none;font-weight:600}
+.room-shell{background:var(--panel);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.room-hero{padding:24px;background:linear-gradient(130deg,rgba(48,116,220,.18),rgba(30,190,160,.08));border-bottom:1px solid var(--line)}
+.room-title-row{display:flex;align-items:center;gap:15px}.room-icon{width:56px;height:56px;display:grid;place-items:center;border-radius:17px;background:var(--panel-2);font-size:28px;flex:none}
+.room-hero h1{font-size:clamp(22px,4vw,30px);margin:0 0 4px}.room-hero p{margin:0;color:var(--muted);line-height:1.6}.room-status{display:flex;align-items:center;gap:8px;margin-top:14px;color:var(--muted);font-size:12px}.room-live-dot{width:8px;height:8px;border-radius:50%;background:#20bf78;box-shadow:0 0 0 4px rgba(32,191,120,.12)}
+.room-content{padding:20px}.room-messages{height:min(48vh,430px);min-height:240px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px 16px}.room-message{max-width:88%;padding:10px 13px;border-radius:14px;background:var(--panel-2);border:1px solid var(--line);overflow-wrap:anywhere}.room-message.mine{align-self:flex-end;background:rgba(48,116,220,.13);border-color:rgba(48,116,220,.25)}.room-message strong{display:block;font-size:12px;margin-bottom:3px}.room-message span{font-size:13px;line-height:1.5;white-space:pre-wrap}.room-form{display:flex;gap:9px;border-top:1px solid var(--line);padding-top:15px}.room-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:13px;padding:13px;background:var(--panel-2);color:var(--text);font:inherit}.room-form button,.game-card button{border:0;border-radius:12px;padding:11px 18px;background:var(--sky);color:white;font:600 13px Poppins;cursor:pointer}.room-tools{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.room-tools button{border:1px solid var(--line);background:var(--panel-2);color:var(--text);padding:8px 11px;border-radius:20px;cursor:pointer;font:500 12px Poppins}
+.game-area{border-top:1px solid var(--line);margin-top:22px;padding-top:20px}.game-area h2{font-size:19px;margin:0 0 5px}.game-area>p{color:var(--muted);font-size:13px;margin:0 0 14px}.game-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.game-card{background:var(--panel-2);border:1px solid var(--line);border-radius:16px;padding:15px;min-width:0}.game-card h3{font-size:15px;margin:0 0 7px}.game-card p{font-size:12px;color:var(--muted);line-height:1.5}.game-actions{display:flex;gap:7px;flex-wrap:wrap}.game-card button{padding:9px 12px}.game-card button.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.game-result{min-height:22px;margin-top:10px;font-size:13px;font-weight:600}.starter-row{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}.starter-row button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:20px;padding:7px 10px;font:500 11px Poppins;cursor:pointer}
+@media(max-width:600px){.community-page{width:calc(100% - 18px);margin:14px auto 85px}.room-hero,.room-content{padding:15px}.room-icon{width:46px;height:46px;font-size:23px}.room-messages{height:45vh;min-height:210px}.room-form{gap:6px}.room-form button{padding:10px 13px}.game-grid{grid-template-columns:1fr}.room-message{max-width:94%}}
+</style></head>
+<body>
+<header><div class="brand-stack"><div class="logo"><a href="timeline.html">Sky<span>Line</span></a></div><span class="header-username" data-user-username></span></div><nav></nav></header>
+<main class="community-page">
+<a class="community-back" href="timeline.html">← Back to Timeline</a>
+<section class="room-shell">
+<div class="room-hero"><div class="room-title-row"><div class="room-icon" id="roomIcon" aria-hidden="true">🌍</div><div><span class="eyebrow">SkyLine Community</span><h1 id="roomTitle">Community Room</h1><p id="roomDescription">Meet people and start a conversation.</p></div></div><div class="room-status"><span class="room-live-dot"></span><span id="roomMembers">Community discussion</span><span>• Messages saved on this device</span></div></div>
+<div class="room-content">
+<div class="room-tools" aria-label="Conversation actions"><button type="button" data-starter="Hello everyone! I’m new here.">👋 Introduce yourself</button><button type="button" data-starter="What is everyone discussing today?">💬 Start a topic</button><button type="button" data-starter="I have a question for the room: ">❓ Ask a question</button></div>
+<div class="room-messages" id="roomMessages" aria-live="polite"></div>
+<form class="room-form" id="roomForm"><input id="roomInput" maxlength="500" autocomplete="off" aria-label="Write a message" placeholder="Write a message..."><button type="submit">Send</button></form>
+<section class="game-area" id="gameArea" hidden><h2>🎮 Games Lounge</h2><p>Play a quick round, then share your result with the room.</p><div class="game-grid">
+<article class="game-card"><h3>✊ Rock, Paper, Scissors</h3><p>Choose your move and challenge the computer.</p><div class="game-actions"><button type="button" data-rps="Rock">Rock</button><button type="button" data-rps="Paper">Paper</button><button type="button" data-rps="Scissors">Scissors</button></div><div class="game-result" id="rpsResult" aria-live="polite"></div></article>
+<article class="game-card"><h3>🧠 Quick Trivia</h3><p id="triviaQuestion">Which planet is known as the Red Planet?</p><div class="game-actions"><button type="button" data-answer="Earth">Earth</button><button type="button" data-answer="Mars">Mars</button><button type="button" data-answer="Venus">Venus</button></div><div class="game-result" id="triviaResult" aria-live="polite"></div></article>
+</div></section>
+</div></section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="cloud-config.js?v=20261102-v26"></script><script src="api-client.js?v=20261102-v26"></script><script src="auth.js?v=20261102-v26"></script><script src="Sky.js?v=20261110-v27"></script><script src="ui.js?v=20261110-v27"></script>
+<script>
+(()=>{'use strict';
+const rooms={
+ football:{title:'Football Room',icon:'⚽',desc:'Match talk, clubs, players and football culture from around the world.',members:'Football community'},
+ music:{title:'Music Room',icon:'🎵',desc:'Artists, new releases, playlists and music conversations.',members:'Music community'},
+ entertainment:{title:'Entertainment Room',icon:'🎬',desc:'Movies, series, creators, gaming and everything entertaining.',members:'Entertainment community'},
+ politics:{title:'Politics Room',icon:'🌐',desc:'Current affairs and respectful political conversations from different perspectives.',members:'Civic discussion community'},
+ food:{title:'Food Room',icon:'🍲',desc:'Recipes, restaurants, cooking ideas and food culture from around the world.',members:'Food community'},
+ fashion:{title:'Fashion Room',icon:'👗',desc:'Style, trends, designers, beauty and fashion conversations.',members:'Fashion community'},
+ games:{title:'Games Room',icon:'🎮',desc:'Find teammates, share gaming tips, take friendly challenges and compare scores.',members:'Games and challenges community'},
+ science:{title:'Science Room',icon:'🔬',desc:'Explore discoveries, space, technology, nature, experiments and big questions.',members:'Science discussion community'}
+};
+const params=new URLSearchParams(location.search),key=params.get('room')||'football',room=rooms[key]||rooms.football;
+const $=id=>document.getElementById(id),list=$('roomMessages'),input=$('roomInput');
+$('roomIcon').textContent=room.icon;$('roomTitle').textContent=room.title;$('roomDescription').textContent=room.desc;$('roomMembers').textContent=room.members;
+$('gameArea').hidden=key!=='games';
+const storageKey='skylineCommunityMessages:'+key;
+const esc=s=>String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const getName=()=>{try{const u=JSON.parse(localStorage.getItem('skylineUser')||'null');return u?.name||'SkyLine User'}catch{return 'SkyLine User'}};
+let messages;try{messages=JSON.parse(localStorage.getItem(storageKey)||'null')}catch{messages=null}
+if(!Array.isArray(messages)||!messages.length)messages=[{name:'SkyLine Community',text:`Welcome to the ${room.title}. Be respectful, share ideas and make yourself at home.`,mine:false},{name:'Community Guide',text:'Try the conversation starters above to get things moving.',mine:false}];
+function save(){try{localStorage.setItem(storageKey,JSON.stringify(messages.slice(-150)))}catch{}}
+function render(){list.innerHTML=messages.map(m=>`<div class="room-message${m.mine?' mine':''}"><strong>${esc(m.name)}</strong><span>${esc(m.text)}</span></div>`).join('');list.scrollTop=list.scrollHeight}
+function send(text){const value=String(text||'').trim();if(!value)return;messages.push({name:getName(),text:value,mine:true,at:Date.now()});save();render()}
+render();
+$('roomForm').addEventListener('submit',e=>{e.preventDefault();send(input.value);input.value='';input.focus()});
+document.querySelectorAll('[data-starter]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.starter;input.focus();input.setSelectionRange(input.value.length,input.value.length)}));
+const rps=['Rock','Paper','Scissors'];
+document.querySelectorAll('[data-rps]').forEach(b=>b.addEventListener('click',()=>{const user=b.dataset.rps,computer=rps[Math.floor(Math.random()*3)];const outcome=user===computer?'It’s a draw.':((user==='Rock'&&computer==='Scissors')||(user==='Paper'&&computer==='Rock')||(user==='Scissors'&&computer==='Paper'))?'You win!':'Computer wins this round.';$('rpsResult').textContent=`You: ${user} · Computer: ${computer}. ${outcome}`;$('rpsResult').dataset.share=`I played Rock, Paper, Scissors in the Games Room: ${user} vs ${computer}. ${outcome}`}));
+document.querySelectorAll('[data-answer]').forEach(b=>b.addEventListener('click',()=>{const ok=b.dataset.answer==='Mars';$('triviaResult').textContent=ok?'Correct! Mars is known as the Red Planet.':'Not quite — the answer is Mars. Try another round!';$('triviaResult').dataset.share=`Quick trivia in the Games Room: ${ok?'I got it right!':'I learned something new.'} The Red Planet is Mars.`}));
+document.querySelectorAll('.game-card').forEach(card=>{const result=card.querySelector('.game-result');const share=document.createElement('button');share.type='button';share.className='secondary';share.textContent='Share result in chat';share.addEventListener('click',()=>{if(result.dataset.share)send(result.dataset.share)});const actions=card.querySelector('.game-actions');actions.appendChild(share)});
+})();
+</script></body></html>
